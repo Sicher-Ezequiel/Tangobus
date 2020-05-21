@@ -1,0 +1,69 @@
+create database tangobus
+
+use tangobus
+
+create table pasajeros(
+idpasajeros int identity (1,1) primary key, 
+apellidos varchar (100),
+nombres varchar (150),
+dni varchar (100),
+ascenso varchar (100),
+telefonos varchar (100),
+nacionalidad varchar (200),
+mayor varchar (150),
+fecha varchar (100),
+destino varchar (100),
+grupo varchar (100)
+)
+go
+
+create proc spmostrar_pasajeros
+as
+select * from pasajeros
+go
+
+create proc spbuscar_pasajeros
+@textobuscar varchar(100)
+as
+select * from pasajeros 
+where nombres like @textobuscar + '%' or apellidos like @textobuscar + '%' or dni like @textobuscar + '%' or telefonos like @textobuscar + '%' or ascenso like @textobuscar + '%' or fecha like @textobuscar + '%' or grupo like @textobuscar + '%' or destino like @textobuscar + '%'
+go
+
+create proc spinsertar_pasajeros
+@apellidos varchar(100),
+@nombres varchar(150),
+@dni varchar(100),
+@ascenso varchar(100),
+@telefonos varchar(100),
+@nacionalidad varchar(200),
+@mayor varchar(150),
+@fecha varchar(100),
+@destino varchar(100),
+@grupo varchar(100)
+as
+insert into pasajeros values ( @apellidos, @nombres, @dni, @ascenso, @telefonos, @nacionalidad, @mayor, @fecha, @destino, @grupo)
+go
+
+create proc speditar_pasajeros 
+@idpasajeros int,
+@apellidos varchar(100),
+@nombres varchar(150),
+@dni varchar(100),
+@ascenso varchar(100),
+@telefonos varchar(100),
+@nacionalidad varchar(200),
+@mayor varchar(150),
+@fecha varchar(100),
+@destino varchar(100),
+@grupo varchar(100)
+as
+
+update pasajeros set apellidos=@apellidos, nombres=@nombres, dni=@dni, ascenso=@ascenso, telefonos=@telefonos, nacionalidad=@nacionalidad, mayor=@mayor, fecha=@fecha, destino=@destino, grupo=@grupo 
+where idpasajeros=@idpasajeros
+go
+
+create proc speliminar_pasajeros
+@idpasajeros int
+as
+delete from pasajeros where idpasajeros=@idpasajeros
+go
